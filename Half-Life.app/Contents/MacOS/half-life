@@ -1,0 +1,52 @@
+#!/bin/bash
+# Half-Life launcher for Xash3D FWGS on macOS
+# Finds Steam Half-Life data and launches the engine
+
+APPDIR="$(cd "$(dirname "$0")/.." && pwd)"
+RESOURCES="$APPDIR/Resources"
+ENGINE="$APPDIR/MacOS/xash3d"
+
+# Find Half-Life game data via Steam
+STEAM_PATHS=(
+    "$HOME/Library/Application Support/Steam/steamapps/common/Half-Life"
+    "$HOME/Library/Application Support/Steam/steamapps/common/Half-Life 1"
+    "/Users/Shared/Steam/steamapps/common/Half-Life"
+)
+
+GAMEDIR=""
+for path in "${STEAM_PATHS[@]}"; do
+    if [ -d "$path/valve" ]; then
+        GAMEDIR="$path"
+        break
+    fi
+done
+
+if [ -z "$GAMEDIR" ]; then
+    osascript -e 'display dialog "Half-Life game data not found.\nPlease install Half-Life via Steam." buttons {"OK"} default button "OK" with icon stop with title "Half-Life"'
+    exit 1
+fi
+
+# Create working directory with symlinks
+WORKDIR="$HOME/Library/Application Support/Xash3D FWGS"
+mkdir -p "$WORKDIR"
+
+# Symlink game data if not already present
+for dir in valve gearbox bshift; do
+    if [ -d "$GAMEDIR/$dir" ] && [ ! -e "$WORKDIR/$dir" ]; then
+        ln -s "$GAMEDIR/$dir" "$WORKDIR/$dir"
+    fi
+done
+
+# Copy config files if not present
+for cfg in opengl.cfg video.cfg; do
+    if [ ! -e "$WORKDIR/$cfg" ]; then
+        cp "$RESOURCES/$cfg" "$WORKDIR/$cfg" 2>/dev/null
+    fi
+done
+
+# Set library path for dylibs
+export DYLD_LIBRARY_PATH="$RESOURCES:$WORKDIR:$DYLD_LIBRARY_PATH"
+
+# Launch Xash3D
+cd "$WORKDIR"
+exec "$ENGINE" "$@"
