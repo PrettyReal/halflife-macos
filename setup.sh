@@ -35,7 +35,7 @@ fi
 mkdir -p "$WORKDIR"
 
 # Create symlinks
-for dir in valve gearbox bshift; do
+for dir in valve gearbox bshift paranoia; do
     if [ -d "$GAMEDIR/$dir" ]; then
         if [ ! -e "$WORKDIR/$dir" ]; then
             ln -s "$GAMEDIR/$dir" "$WORKDIR/$dir"

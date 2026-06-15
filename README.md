@@ -14,6 +14,13 @@ Unofficial macOS port of Half-Life using [Xash3D FWGS](https://github.com/FWGS/x
 2. Run `./setup.sh` to link your Steam game data
 3. Launch `Half-Life.app`
 
+## Supported Mods
+
+- Half-Life (valve)
+- Blue Shift (bshift)
+- Opposing Force (gearbox)
+- Paranoia (paranoia) — built from [Spirit of Half-Life 1.2](https://github.com/FWGS/hlsdk-portable/tree/sohl1.2)
+
 ## Building from source
 
 ```bash
