@@ -1,44 +1,44 @@
-# GoldSrc Mods for macOS (Xash3D FWGS)
+# Half-Life Xash3D FWGS for macOS
 
-Run Half-Life and GoldSrc mods natively on macOS using [Xash3D FWGS](https://github.com/FWGS/xash3d-fwgs) engine.
+Native .app для запуска Half-Life, Blue Shift и Opposing Force на macOS через Xash3D FWGS.
 
-## Requirements
+## Установка
 
-- macOS 10.13 or later
-- Intel x86_64 Mac
-- Half-Life (Steam) — required for game data
+1. Установите Half-Life через Steam
+2. Запустите `setup.sh` для создания симлинков на игровые данные
+3. Запустите `Half-Life.app`
 
-## Installation
+## Что включено
 
-1. Clone this repo or download the release
-2. Run `./setup.sh` to link your Steam game data
-3. Launch `Half-Life.app`
-4. Select a mod from the game menu
+- Xash3D FWGS (свежая сборка из исходников)
+- Поддержка Half-Life, Blue Shift, Opposing Force
+- Русская локализация (текст + озвучка)
+- OpenGL рендерер
 
-## Supported Mods
+## Структура
 
-| Mod | Directory | Description |
-|-----|-----------|-------------|
-| Half-Life | `valve` | Base game |
-| Blue Shift | `bshift` | Valve expansion |
-| Opposing Force | `gearbox` | Valve expansion |
-| Paranoia | `paranoia` | Horror mod, [Spirit of Half-Life 1.2](https://github.com/FWGS/hlsdk-portable/tree/sohl1.2) native build |
-
-## Adding More Mods
-
-Any GoldSrc mod that works with Xash3D can be added. Just place the mod directory in your Steam Half-Life folder and re-run `./setup.sh`.
-
-## Building from source
-
-```bash
-git clone https://github.com/PrettyReal/halflife-macos.git
-cd halflife-macos
-git clone --depth 1 https://github.com/FWGS/xash3d-fwgs.git /tmp/xash3d
-cd /tmp/xash3d
-./waf configure
-./waf
+```
+Half-Life.app/
+├── Contents/
+│   ├── Frameworks/          # Движковые библиотеки
+│   │   ├── xash3d.bin       # Лаунчер
+│   │   ├── libxash.dylib    # Ядро движка
+│   │   ├── libmenu.dylib    # Меню
+│   │   ├── libref_gl.dylib  # OpenGL рендерер
+│   │   ├── filesystem_stdio.dylib
+│   │   └── libSDL2-2.0.0.dylib
+│   ├── MacOS/
+│   │   └── xash3d           # Баш-скрипт запуска
+│   └── Resources/           # Игровые ресурсы
+│       ├── paranoia/        # Paranoia мод
+│       ├── app.icns         # Иконка
+│       └── opengl.cfg
+├── setup.sh                 # Скрипт настройки
+└── README.md
 ```
 
-## License
+## Требования
 
-Xash3D FWGS is licensed under GPL-3.0. Half-Life is a trademark of Valve Corporation.
+- macOS 13+
+- Half-Life через Steam
+- Rosetta 2 (для Intel бинарника на Apple Silicon)
